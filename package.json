@@ -9,9 +9,7 @@
     "dev": "tsc --watch",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "predeploy": "npm run build-storybook",
-    "deploy-storybook": "gh-pages -d storybook-static"
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
