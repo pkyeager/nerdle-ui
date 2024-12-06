@@ -3,6 +3,7 @@ name: Deploy Storybook
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN
 permissions:
@@ -10,9 +11,17 @@ permissions:
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,6 +37,8 @@ jobs:
 
       - name: Build Storybook
         run: npm run build-storybook
+        env:
+          NODE_ENV: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
@@ -35,6 +46,5 @@ jobs:
           path: storybook-static
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}

@@ -11,5 +11,9 @@ module.exports = {
     },
     docs: {
       autodocs: true
+    },
+    viteFinal: async (config) => {
+      config.base = process.env.NODE_ENV === 'production' ? '/nerdle-ui/' : '/';
+      return config;
     }
   }; 
